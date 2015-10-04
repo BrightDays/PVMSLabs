@@ -1,57 +1,55 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
+#include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h> 
+#include <string.h>
 
-void error(const char *msg)
+#define PORT 7000
+#define MAX_FILEPATH_SIZE 256
+#define BUF_SIZE 256
+
+int main()
 {
-    perror(msg);
-    exit(0);
-}
+	char filepath[MAX_FILEPATH_SIZE];
+	int bytes_received = 0, socket_id = 0;
+	char buffer[BUF_SIZE];
+	struct sockaddr_in server_socket;
+	FILE *file;
+	
+	memset(buffer, 0, sizeof(buffer));
+	
+	printf("Input file path: ");
+	scanf("%s", filepath);
+	
+	if ((socket_id = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		printf("ERROR opening socket.\n");
+		return 1;
+	}
+	
+	server_socket.sin_family = AF_INET;
+	server_socket.sin_port = htons(PORT); 
+	server_socket.sin_addr.s_addr = inet_addr("127.0.0.1"); 
+	
+	if (connect(socket_id, (struct sockaddr *)&server_socket, sizeof(server_socket)) == -1) {
+		printf("ERROR connecting.\n");
+		return 1;
+	}
+	
+	if (send(socket_id, filepath, strlen(filepath), 0) == -1) {
+		printf("Send failed.\n");
+		return 1;
+	}
 
-int main(int argc, char *argv[])
-{
-    int sockfd, portno, n;
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
-
-    char buffer[256];
-    if (argc < 3) {
-       fprintf(stderr,"usage %s hostname port\n", argv[0]);
-       exit(0);
-    }
-    portno = atoi(argv[2]);
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) 
-        error("ERROR opening socket");
-    server = gethostbyname(argv[1]);
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host\n");
-        exit(0);
-    }
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, 
-         (char *)&serv_addr.sin_addr.s_addr,
-         server->h_length);
-    serv_addr.sin_port = htons(portno);
-    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-        error("ERROR connecting");
-    printf("Please enter the message: ");
-    bzero(buffer,256);
-    fgets(buffer,255,stdin);
-    n = write(sockfd,buffer,strlen(buffer));
-    if (n < 0) 
-         error("ERROR writing to socket");
-    bzero(buffer,256);
-    n = read(sockfd,buffer,255);
-    if (n < 0) 
-         error("ERROR reading from socket");
-    printf("%s\n",buffer);
-    close(sockfd);
-    return 0;
+	file = fopen("output.txt", "wb");
+	while ((bytes_received = read(socket_id, buffer, BUF_SIZE)) > 0) {
+		fwrite(buffer, 1, bytes_received, file);
+	}
+	
+	if (bytes_received < 0)
+		printf("Reading failed.\n");
+	
+	printf("File reading finished.\n");
+	fclose(file);
+	close(socket_id);
+	return 0;	
 }
