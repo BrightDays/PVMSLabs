@@ -131,7 +131,7 @@ int main(int argc, char* argv[])
 			printf("Process creation failed.\n");
 			break;
 		case 0:
-			thread_function((void*)(intptr_t)client_id);
+			thread_function((void*)client_id);
 			return 0;
 		default:
 		  	close(client_id);

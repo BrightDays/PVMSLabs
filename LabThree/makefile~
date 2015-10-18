@@ -1,12 +1,11 @@
 all:
-	gcc client.c -o client.o
-	gcc server.c -o server.o
+	gcc client.c -o client.o 2>/dev/null
+	gcc server.c -o server.o 2>/dev/null
 thread:
-	gcc client.c -o client.o
-	gcc server.c -DTHREAD -o server.o -lpthread
+	gcc client.c -o client.o 2>/dev/null
+	gcc server.c -DTHREAD -o server.o -lpthread 2>/dev/null
 process:
-	gcc client.c -o client.o
-	gcc server.c -DPROCESS -o server.o -lpthread
+	gcc client.c -o client.o 2>/dev/null
+	gcc server.c -DPROCESS -o server.o -lpthread 2>/dev/null
 clean:
 	rm -rf *.o
-	rm output.txt

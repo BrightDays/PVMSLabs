@@ -20,7 +20,7 @@ void* thread_function(void *param)
 {
 	char filepath[MAX_FILENAME_SIZE];
 	unsigned char buffer[BUFFER_SIZE];
-	int bytes_send = 0, bytes_read = 0, client_id = (intptr_t)param;
+	int bytes_send = 0, bytes_read = 0, client_id = (int)param;
 	FILE *file;
 
 	memset(buffer, 0, sizeof(buffer));
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 	struct sockaddr_in server_socket;
 
 #ifdef THREAD	
-	pthread_t threads[MAX_THREAD_COUNT];
+	pthread_t threads[MAX_THREAD_COUNT] = { NULL };
 	int i = 0;
 #elif defined(PROCESS)
 	pid_t processId = 0;
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
 		}
 #ifdef THREAD
 		for (i = 0; i < MAX_THREAD_COUNT; ++i)
-			if ((!threads[i]) || (pthread_kill(threads[i], 0) != ESRCH))
+			if ((threads[i] == NULL) || (pthread_kill(threads[i], 0) != ESRCH))
 				break;
 
 		if (i >= MAX_THREAD_COUNT) {
@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
 			continue;
 		}
 
-		if (pthread_create(&threads[i], NULL, thread_function, (void*)(intptr_t)client_id)) {
+		if (pthread_create(&threads[i], NULL, thread_function, (void*)client_id)) {
 			printf("Thread wasn't created.\n");
 			continue;
 		}
@@ -131,14 +131,14 @@ int main(int argc, char* argv[])
 			printf("Process creation failed.\n");
 			break;
 		case 0:
-			thread_function((void*)(intptr_t)client_id);
+			thread_function((void*)client_id);
 			return 0;
 		default:
 		  	close(client_id);
 			break;
 		}
 #else
-		thread_function((void*)(intptr_t)client_id);
+		thread_function((void*)client_id);
 #endif			
 	}
 
