@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Game</string>
+    <string name="action_quit">Quit</string>
+    <string name="guess_the_number">Choose the number from 1 to 100</string>
+    <string name="try_to_guess">Try</string>
+    <string name="enter_number">Please, enter number</string>
+    <string name="incorrect_number">Please, enter correct number between 1 and 100</string>
+    <string name="enter_number_of_bots">Please, enter number of bots [2,20] u want to play with, default is 5</string>
+    <string name="you_win">You win!)</string>
+    <string name="you_lose">You lose:(</string>
+    <string name="average">2/3 of Average</string>
+    <string name="your_number">Your number</string>
+    <string name="bots_integers">Bots integers</string>
+    <string name="winner_bot">Winner : bot#</string>
+    <string name="rules"> Choose an integer between 0 and 100. Bots will choose integers too. The winner is the person whose integer is closest to 2/3 of the average of the numbers reported by all participants, with ties broken uniformly at random.</string>
+</resources>

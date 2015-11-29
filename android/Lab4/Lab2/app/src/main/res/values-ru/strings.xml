@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Игра</string>
+    <string name="action_quit">Выход</string>
+    <string name="guess_the_number">Выберите число от 1 до 100</string>
+    <string name="try_to_guess">Поехали</string>
+    <string name="enter_number">Пожалуйста, введите число</string>
+    <string name="incorrect_number">Пожалуйста, введите корректное число от 1 до 100</string>
+    <string name="enter_number_of_bots">Пожалуйста, введите кол-во ботов с которыми вы будете играть. По умолчанию их 5</string>
+    <string name="you_win">Победа!)</string>
+    <string name="you_lose">Поражение:(</string>
+    <string name="average">2/3 от среднего</string>
+    <string name="your_number">Ваше число</string>
+    <string name="bots_integers">Числа ботов</string>
+    <string name="winner_bot">Победитель : бот#</string>
+    <string name="rules"> Выберите число от 1 до 100. Боты также выберут числа. Побеждает тот, чье число окажется ближе всего к 2/3 от среднего значения всех чисел. При равной минимальной разнице победитель выбирается случайно из всех игроков с такой разницей.</string>
+</resources>
