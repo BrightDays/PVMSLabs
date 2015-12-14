@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">myapp</string>
+    <string name="add_new_item">Добавить</string>
+    <string-array name="menu_items">
+        <item>Доходы</item>
+        <item>Расходы</item>
+        <item>Статистика</item>
+        <item>Категории</item>
+    </string-array>
+    <string-array name="criteria">
+        <item>День</item>
+        <item>Неделя</item>
+        <item>Месяц</item>
+        <item>Год</item>
+        <item>Свой</item>
+    </string-array>
+</resources>
